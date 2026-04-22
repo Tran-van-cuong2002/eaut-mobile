@@ -4,10 +4,16 @@
 
 @section('content')
 
-{{-- Lời chào --}}
-<div style="margin-bottom: 25px;">
-    <h4 style="margin: 0 0 5px 0; color: #333; font-weight: bold; font-size: 22px;">Xin chào, {{ Auth::user()->name ?? 'Admin' }}! 👋</h4>
-    <p style="margin: 0; color: #6c757d; font-size: 14px;">Dưới đây là tình hình hoạt động kinh doanh của cửa hàng.</p>
+{{-- Lời chào & Nút Xuất File --}}
+<div style="margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h4 style="margin: 0 0 5px 0; color: #333; font-weight: bold; font-size: 22px;">Xin chào, {{ Auth::user()->name ?? 'Admin' }}! 👋</h4>
+        <p style="margin: 0; color: #6c757d; font-size: 14px;">Dưới đây là tình hình hoạt động kinh doanh của cửa hàng.</p>
+    </div>
+    
+    <a href="{{ route('admin.dashboard.export') }}" style="background: #198754; color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(25,135,84,0.2); transition: all 0.2s;" onmouseover="this.style.background='#157347'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#198754'; this.style.transform='translateY(0)'">
+        <i class="bi bi-file-earmark-excel"></i> Xuất báo cáo (CSV)
+    </a>
 </div>
 
 {{-- Các thẻ Thống kê (Cards) --}}

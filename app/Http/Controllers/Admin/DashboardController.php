@@ -46,4 +46,44 @@ class DashboardController extends Controller
             'chartData' // BỔ SUNG: Truyền mảng dữ liệu ra giao diện
         ));
     }
+
+    // THÊM MỚI: Hàm xử lý xuất file CSV
+    public function export()
+    {
+        $currentYear = Carbon::now()->year;
+        $fileName = "bao-cao-doanh-thu-$currentYear.csv";
+
+        $headers = array(
+            "Content-type"        => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        );
+
+        $callback = function() use ($currentYear) {
+            $file = fopen('php://output', 'w');
+            
+            // Thêm BOM để hiển thị được tiếng Việt trong Excel không bị lỗi font
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // Tiêu đề của file
+            fputcsv($file, ["BÁO CÁO DOANH THU NĂM $currentYear"]);
+            fputcsv($file, ["Tháng", "Doanh thu (VNĐ)"]);
+
+            // Lặp 12 tháng để xuất dữ liệu
+            for ($month = 1; $month <= 12; $month++) {
+                $revenue = Order::where('status', 'completed')
+                    ->whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $month)
+                    ->sum('total_price');
+                
+                fputcsv($file, ["Tháng $month", number_format($revenue, 0, ',', '.') . " ₫"]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

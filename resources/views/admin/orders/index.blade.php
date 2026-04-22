@@ -20,6 +20,11 @@
         <h5 style="margin: 0; font-weight: bold; color: #333; font-size: 16px; display: flex; align-items: center; gap: 8px;">
             <i class="bi bi-receipt" style="color: #0d6efd; font-size: 18px;"></i> Danh sách Đơn hàng
         </h5>
+        
+        {{-- NÚT XUẤT EXCEL ĐƯỢC THÊM VÀO ĐÂY --}}
+        <a href="{{ route('admin.orders.export') }}" style="background: #198754; color: #fff; border: 1px solid #198754; padding: 8px 16px; border-radius: 5px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px; transition: all 0.2s; box-shadow: 0 2px 4px rgba(25,135,84,0.2);" onmouseover="this.style.background='#157347'; this.style.borderColor='#146c43'" onmouseout="this.style.background='#198754'; this.style.borderColor='#198754'">
+            <i class="bi bi-file-earmark-excel" style="font-size: 16px;"></i> Xuất Excel
+        </a>
     </div>
 
     <div style="overflow-x: auto;">
