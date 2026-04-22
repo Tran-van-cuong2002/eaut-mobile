@@ -152,26 +152,6 @@
                 </div>
                 @endif
 
-                {{-- ĐÃ THÊM: Khối Banner Khuyến Mãi --}}
-                <div style="display: flex; gap: 20px; margin-top: 50px; margin-bottom: 20px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 300px; background: linear-gradient(135deg, #0d6efd, #0dcaf0); border-radius: 12px; padding: 25px 30px; color: #fff; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                        <div>
-                            <h5 style="margin: 0 0 8px 0; font-weight: bold; font-size: 22px;">Bảo hành 12 tháng</h5>
-                            <p style="margin: 0; font-size: 15px; opacity: 0.9;">Lỗi 1 đổi 1 cho tất cả linh kiện</p>
-                        </div>
-                        <i class="bi bi-shield-check" style="font-size: 45px; opacity: 0.8;"></i>
-                    </div>
-
-                    <div style="flex: 1; min-width: 300px; background: linear-gradient(135deg, #dc3545, #fd7e14); border-radius: 12px; padding: 25px 30px; color: #fff; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-                        <div>
-                            <h5 style="margin: 0 0 8px 0; font-weight: bold; font-size: 22px;">Giảm 20% khi thay Pin</h5>
-                            <p style="margin: 0; font-size: 15px; opacity: 0.9;">Áp dụng cho khách hàng đặt trước</p>
-                        </div>
-                        <i class="bi bi-battery-charging" style="font-size: 45px; opacity: 0.8;"></i>
-                    </div>
-                </div>
-                {{-- KẾT THÚC THÊM --}}
-
             </div>
         </div>
     </form>

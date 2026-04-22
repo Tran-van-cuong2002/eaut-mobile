@@ -42,9 +42,20 @@
                                     {{ number_format($order->total_price, 0, ',', '.') }} ₫
                                 </td>
                                 <td style="padding: 12px;">
-                                    <span style="background: #e2e3e5; color: #383d41; padding: 5px 10px; border-radius: 4px; font-size: 13px;">
-                                        {{ $order->status }}
-                                    </span>
+                                    {{-- ĐÃ SỬA: Hiển thị trạng thái tiếng Việt có màu sắc --}}
+                                    @if($order->status == 'pending')
+                                        <span class="badge bg-warning text-dark" style="padding: 6px 10px; font-size: 13px;">Chờ xử lý</span>
+                                    @elseif($order->status == 'processing')
+                                        <span class="badge bg-info text-dark" style="padding: 6px 10px; font-size: 13px;">Đang xử lý</span>
+                                    @elseif($order->status == 'shipped')
+                                        <span class="badge bg-primary" style="padding: 6px 10px; font-size: 13px;">Đang giao hàng</span>
+                                    @elseif($order->status == 'completed')
+                                        <span class="badge bg-success" style="padding: 6px 10px; font-size: 13px;">Hoàn thành</span>
+                                    @elseif($order->status == 'cancelled')
+                                        <span class="badge bg-danger" style="padding: 6px 10px; font-size: 13px;">Đã hủy</span>
+                                    @else
+                                        <span class="badge bg-secondary" style="padding: 6px 10px; font-size: 13px;">{{ $order->status }}</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

@@ -4,7 +4,7 @@
 <div class="container py-5">
     <div class="row bg-white p-4 rounded-4 shadow-sm">
         <div class="col-md-5">
-            <img src="{{ $product->image }}" class="img-fluid rounded-3 border" alt="{{ $product->name }}">
+            <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded-3 border" alt="{{ $product->name }}">
         </div>
         <div class="col-md-7">
             <nav aria-label="breadcrumb">

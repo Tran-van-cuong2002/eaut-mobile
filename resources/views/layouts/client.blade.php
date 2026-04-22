@@ -67,9 +67,9 @@
     <footer style="background-color: #212529; color: #f8f9fa; padding: 50px 0 20px 0; margin-top: 40px; width: 100%; font-family: sans-serif;">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 mb-4">
+                <div class="col-md-4 mb-4">
                     <h4 style="color: #fff; font-weight: 800; margin-bottom: 20px; letter-spacing: 1px;">EAUT-MOBILE</h4>
-                    <p style="font-size: 14px; color: #adb5bd; line-height: 1.6;">Chuyên cung cấp linh kiện điện thoại chính hãng, uy tín và chất lượng. Cam kết mang đến trải nghiệm dịch vụ sửa chữa chuyên nghiệp nhất cho sinh viên EAUT.</p>
+                    <p style="font-size: 14px; color: #adb5bd; line-height: 1.6; padding-right: 20px;">Chuyên cung cấp linh kiện điện thoại chính hãng, uy tín và chất lượng. Cam kết mang đến trải nghiệm dịch vụ sửa chữa chuyên nghiệp nhất cho sinh viên EAUT.</p>
                     <div class="mt-3">
                         <a href="#" class="text-white me-3" style="transition: color 0.2s;" onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#fff'"><i class="fab fa-facebook fa-2x"></i></a>
                         <a href="#" class="text-white me-3" style="transition: color 0.2s;" onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#fff'"><i class="fab fa-zalo fa-2x"></i></a>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 mb-4">
+                <div class="col-md-4 mb-4">
                     <h5 style="color: #fff; font-weight: bold; margin-bottom: 20px;">Thông tin liên hệ</h5>
                     <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: #adb5bd; line-height: 2.2;">
                         <li><i class="bi bi-geo-alt-fill" style="margin-right: 8px; color: #0d6efd;"></i> Tòa nhà EAUT, Nam Từ Liêm, Hà Nội</li>
@@ -86,17 +86,7 @@
                     </ul>
                 </div>
 
-                <div class="col-md-3 mb-4">
-                    <h5 style="color: #fff; font-weight: bold; margin-bottom: 20px;">Chính sách & Hỗ trợ</h5>
-                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 2.2;">
-                        <li><a href="#" style="color: #adb5bd; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#adb5bd'">Chính sách bảo hành</a></li>
-                        <li><a href="#" style="color: #adb5bd; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#adb5bd'">Chính sách đổi trả</a></li>
-                        <li><a href="#" style="color: #adb5bd; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#adb5bd'">Chính sách vận chuyển</a></li>
-                        <li><a href="#" style="color: #adb5bd; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#0d6efd'" onmouseout="this.style.color='#adb5bd'">Hướng dẫn mua hàng</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-3 mb-4">
+                <div class="col-md-4 mb-4">
                     <h5 style="color: #fff; font-weight: bold; margin-bottom: 20px;">Bản đồ</h5>
                     <div style="border-radius: 8px; overflow: hidden; height: 160px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
                         <iframe src="https://maps.google.com/maps?q=Đại%20học%20Công%20nghệ%20Đông%20Á,%20Trịnh%20Văn%20Bô,%20Nam%20Từ%20Liêm,%20Hà%20Nội&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -109,6 +99,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         const searchInput = document.getElementById('searchInput');
         const suggestionBox = document.getElementById('suggestionBox');

@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // BỔ SUNG: Khai báo thư viện DB
+use Illuminate\Support\Facades\DB; 
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
@@ -143,7 +143,7 @@ Route::post('/checkout/process', function (Request $request) {
         'status'         => 'pending'
     ]);
 
-    // 2. BỔ SUNG: Ép lưu dữ liệu giỏ hàng vào bảng order_details bằng DB::table
+    // 2. Ép lưu dữ liệu giỏ hàng vào bảng order_details bằng DB::table
     foreach ($cart as $id => $item) {
         DB::table('order_details')->insert([
             'order_id'     => $order->id, 
@@ -163,7 +163,7 @@ Route::post('/checkout/process', function (Request $request) {
 })->name('checkout.process');
 
 
-// --- TRA CỨU ĐƠN HÀNG (ĐÃ ĐƯỢC CHUYỂN RA NGOÀI KHU VỰC ADMIN) ---
+// --- TRA CỨU ĐƠN HÀNG ---
 Route::get('/tra-cuu-don-hang', [App\Http\Controllers\HomeController::class, 'trackOrder'])->name('track.order');
 
 
@@ -195,6 +195,9 @@ Route::get('/logout', function (Request $request) {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    // ĐÃ THÊM: Route xuất file CSV doanh thu (phải đặt dưới dashboard.index)
+    Route::get('/dashboard/export', [DashboardController::class, 'export'])->name('dashboard.export');
+    
     // Quản lý Danh mục
     Route::resource('categories', CategoryController::class);
     
@@ -202,6 +205,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('products', ProductController::class);
     
     // Quản lý Đơn hàng
+    Route::get('orders/export', [OrderController::class, 'export'])->name('orders.export');
     Route::post('orders/{id}/confirm-payment', [OrderController::class, 'confirmPayment'])->name('orders.confirmPayment');
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);
     
