@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\ProfileController; // <--- Đã thêm dòng này
 use App\Models\Order;
 use App\Models\OrderDetail;
 
@@ -168,7 +169,7 @@ Route::get('/tra-cuu-don-hang', [App\Http\Controllers\HomeController::class, 'tr
 
 
 // ==========================================
-// 2. XÁC THỰC & ADMIN
+// 2. XÁC THỰC & ADMIN & NGƯỜI DÙNG
 // ==========================================
 Route::get('/login', function () { return view('client.login'); })->name('login');
 Route::get('/register', function () { return view('client.register'); })->name('register');
@@ -191,6 +192,13 @@ Route::get('/logout', function (Request $request) {
     Auth::logout(); $request->session()->invalidate(); return redirect('/');
 })->name('logout');
 
+// --- ROUTE BẢO MẬT CHO NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP (PROFILE) ---
+// Chỗ này bắt buộc phải đăng nhập mới được vào xem và sửa hồ sơ
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
 // --- ROUTE ADMIN ---
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -211,4 +219,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Quản lý Người dùng
     Route::resource('users', UserController::class)->except(['create', 'store']);
-});
+});     

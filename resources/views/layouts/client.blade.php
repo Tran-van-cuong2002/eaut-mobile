@@ -39,6 +39,7 @@
                         <i class="bi bi-search"></i> Tra cứu đơn hàng
                     </a>
                 @endauth
+                
                 <a class="nav-link position-relative me-3" href="{{ route('cart') }}">
                     <i class="bi bi-cart3 fs-5"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -46,10 +47,20 @@
                     </span>
                 </a>
 
+                {{-- ĐÃ SỬA Ở ĐÂY: Tạo Menu Dropdown cho User đã đăng nhập --}}
                 @auth
-                    <a class="nav-link" href="{{ route('logout') }}">Thoát ({{ Auth::user()->name }})</a>
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-person-lines-fill me-2"></i>Hồ sơ cá nhân</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Thoát</a></li>
+                        </ul>
+                    </div>
                 @else
-                    <a class="nav-link" href="{{ route('login') }}">Đăng nhập</a>
+                    <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập</a>
                 @endauth
             </div>
         </div>
