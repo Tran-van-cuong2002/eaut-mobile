@@ -4,7 +4,17 @@
 <div class="container py-5">
     <div class="row bg-white p-4 rounded-4 shadow-sm">
         <div class="col-md-5">
-            <img src="{{ asset('storage/' . $product->image) }}" class="img-fluid rounded-3 border" alt="{{ $product->name }}">
+            {{-- ĐÃ SỬA TẠI ĐÂY: Xử lý đường dẫn ảnh thông minh --}}
+            @php
+                $imagePath = $product->image ?? 'default.jpg';
+                $imgUrl = str_contains($imagePath, 'products/') 
+                          ? url('storage/' . $imagePath) 
+                          : url('storage/products/' . $imagePath);
+            @endphp
+            <img src="{{ $imgUrl }}" 
+                 onerror="this.src='https://placehold.co/600x600?text=No+Image'" 
+                 class="img-fluid rounded-3 border" 
+                 alt="{{ $product->name }}">
         </div>
         <div class="col-md-7">
             <nav aria-label="breadcrumb">

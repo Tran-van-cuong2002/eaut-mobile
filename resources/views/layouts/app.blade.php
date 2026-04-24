@@ -30,11 +30,37 @@
                     <input class="form-control me-2" type="search" placeholder="Tìm linh kiện...">
                     <button class="btn btn-outline-primary" type="submit">Tìm</button>
                 </form>
+                
                 <div class="navbar-nav">
-                    <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Giỏ hàng (0)</a>
-                    <a href="#" class="nav-link">Đăng nhập</a>
+                    @guest
+                        <a href="#" class="nav-link">Đơn hàng của tôi</a>
+                        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Giỏ hàng (0)</a>
+                        <a href="{{ route('login') }}" class="nav-link">Đăng nhập</a>
+                    @else
+                        <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Giỏ hàng (0)</a>
+                        
+                        <li class="nav-item dropdown" style="list-style: none;">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                                <li><a class="dropdown-item" href="#">Đơn hàng của tôi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{{ route('logout') }}" 
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Thoát
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endguest
                 </div>
-            </div>
+                </div>
         </div>
     </nav>
 

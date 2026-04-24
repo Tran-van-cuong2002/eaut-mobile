@@ -113,7 +113,15 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="card h-100 product-card border-0 shadow-sm p-2">
                             <div class="position-relative text-center">
-                                <img src="{{ asset('storage/' . ($product->image ?? 'default.jpg')) }}" 
+                                {{-- ĐÃ SỬA: Xử lý hiển thị ảnh tự động không bị lặp thư mục products --}}
+                                @php
+                                    $imagePath = $product->image ?? 'default.jpg';
+                                    $imgUrl = str_contains($imagePath, 'products/') 
+                                              ? url('storage/' . $imagePath) 
+                                              : url('storage/products/' . $imagePath);
+                                @endphp
+                                <img src="{{ $imgUrl }}" 
+                                     onerror="this.src='https://placehold.co/400x300?text=No+Image'"
                                      class="card-img-top mt-2" 
                                      style="width: 100%; height: 180px; object-fit: contain;" 
                                      alt="{{ $product->name }}">

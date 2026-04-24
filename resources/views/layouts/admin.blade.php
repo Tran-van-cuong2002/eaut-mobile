@@ -47,9 +47,14 @@
         </a>
 
         <div class="mt-auto border-top border-secondary p-3">
-            <a href="{{ route('logout') }}" class="nav-link text-danger fw-bold p-0">
+            {{-- ĐÃ SỬA TẠI ĐÂY: Thêm sự kiện onclick và thẻ form ẩn --}}
+            <a href="{{ route('logout') }}" class="nav-link text-danger fw-bold p-0"
+               onclick="event.preventDefault(); document.getElementById('logout-form-admin').submit();">
                 <i class="bi bi-box-arrow-left"></i> Đăng xuất
             </a>
+            <form id="logout-form-admin" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </div>
     </nav>
 </div>

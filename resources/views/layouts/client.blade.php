@@ -28,42 +28,66 @@
             </div>
 
             <div class="navbar-nav align-items-center">
-                @auth
-                    {{-- Khách đã đăng nhập: Chuyển thẳng đến trang tra cứu kèm SĐT của họ (nếu có) --}}
-                    <a class="nav-link me-3" href="{{ route('track.order', ['phone' => Auth::user()->phone ?? '']) }}">
-                        <i class="bi bi-box-seam"></i> Đơn hàng của tôi
-                    </a>
-                @else
-                    {{-- Khách chưa đăng nhập: Mở trang tra cứu trống --}}
+                @guest
+                    {{-- 1. KHÁCH CHƯA ĐĂNG NHẬP --}}
+                    {{-- Nút tra cứu đơn hàng để bên ngoài --}}
                     <a class="nav-link me-3" href="{{ route('track.order') }}">
                         <i class="bi bi-search"></i> Tra cứu đơn hàng
                     </a>
-                @endauth
-                
-                <a class="nav-link position-relative me-3" href="{{ route('cart') }}">
-                    <i class="bi bi-cart3 fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ session('cart') ? count(session('cart')) : 0 }}
-                    </span>
-                </a>
+                    
+                    {{-- Giỏ hàng --}}
+                    <a class="nav-link position-relative me-3" href="{{ route('cart') }}">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ session('cart') ? count(session('cart')) : 0 }}
+                        </span>
+                    </a>
 
-                {{-- ĐÃ SỬA Ở ĐÂY: Tạo Menu Dropdown cho User đã đăng nhập --}}
-                @auth
+                    {{-- Đăng nhập --}}
+                    <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập</a>
+                    
+                @else
+                    {{-- 2. KHÁCH ĐÃ ĐĂNG NHẬP --}}
+                    {{-- Giỏ hàng (vẫn nằm ngoài) --}}
+                    <a class="nav-link position-relative me-3" href="{{ route('cart') }}">
+                        <i class="bi bi-cart3 fs-5"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ session('cart') ? count(session('cart')) : 0 }}
+                        </span>
+                    </a>
+
+                    {{-- Menu Dropdown --}}
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-person-lines-fill me-2"></i>Hồ sơ cá nhân</a></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                    <i class="bi bi-person-lines-fill me-2 text-secondary"></i>Hồ sơ cá nhân
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('user.orders') }}">
+                                    <i class="bi bi-box-seam me-2 text-secondary"></i>Đơn hàng của tôi
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{{ route('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Thoát</a></li>
+                            <li>
+                                {{-- Nút Thoát chuẩn Laravel (Dùng form POST) --}}
+                                <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Thoát
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </li>
                         </ul>
                     </div>
-                @else
-                    <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập</a>
-                @endauth
+                @endguest
             </div>
-        </div>
+            </div>
     </nav>
 
     <main class="py-4" style="min-height: 600px;">
@@ -124,9 +148,15 @@
                     suggestionBox.innerHTML = '';
                     if(data.length > 0) {
                         data.forEach(item => {
+                            // ĐÃ SỬA: Xử lý đường dẫn ảnh bằng JS
+                            let imgPath = item.image || 'default.jpg';
+                            let imgSrc = imgPath.includes('products/') 
+                                         ? `{{ url('storage') }}/${imgPath}` 
+                                         : `{{ url('storage/products') }}/${imgPath}`;
+
                             suggestionBox.innerHTML += `
                                 <a href="/san-pham/${item.id}" class="list-group-item list-group-item-action d-flex align-items-center suggestion-item">
-                                    <img src="/images/${item.image || 'default.jpg'}" class="me-3">
+                                    <img src="${imgSrc}" onerror="this.src='https://placehold.co/40x40?text=Img'" class="me-3" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
                                     <div>
                                         <div class="fw-bold small text-dark">${item.name}</div>
                                         <div class="text-danger small">${new Intl.NumberFormat().format(item.price)}đ</div>

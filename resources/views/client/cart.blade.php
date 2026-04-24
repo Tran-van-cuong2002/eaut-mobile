@@ -27,7 +27,19 @@
                             <tr>
                                 <td class="text-start ps-4">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('images/'.$details['image']) }}" width="60" class="me-3 border rounded">
+                                        {{-- ĐÃ SỬA: Logic đường dẫn ảnh thông minh --}}
+                                        @php
+                                            $imagePath = $details['image'] ?? 'default.jpg';
+                                            $imgUrl = str_contains($imagePath, 'products/') 
+                                                      ? url('storage/' . $imagePath) 
+                                                      : url('storage/products/' . $imagePath);
+                                        @endphp
+                                        <img src="{{ $imgUrl }}" 
+                                             onerror="this.src='https://placehold.co/60x60?text=No+Image'" 
+                                             width="60" 
+                                             class="me-3 border rounded" 
+                                             alt="{{ $details['name'] }}">
+                                        
                                         <span class="fw-bold">{{ $details['name'] }}</span>
                                     </div>
                                 </td>

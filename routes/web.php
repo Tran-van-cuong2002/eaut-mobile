@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\ProfileController; // <--- Đã thêm dòng này
+use App\Http\Controllers\ProfileController;
 use App\Models\Order;
 use App\Models\OrderDetail;
 
@@ -135,6 +135,7 @@ Route::post('/checkout/process', function (Request $request) {
 
     // 1. Tạo đơn hàng và gán vào biến $order
     $order = Order::create([
+        'user_id'        => Auth::check() ? Auth::id() : null, // <--- ĐÃ THÊM: Rất quan trọng để biết đơn của user nào!
         'customer_name'  => $request->fullname,
         'customer_phone' => $request->phone,
         'address'        => $request->address ?? '',
@@ -164,7 +165,7 @@ Route::post('/checkout/process', function (Request $request) {
 })->name('checkout.process');
 
 
-// --- TRA CỨU ĐƠN HÀNG ---
+// --- TRA CỨU ĐƠN HÀNG DÀNH CHO KHÁCH VÃNG LAI ---
 Route::get('/tra-cuu-don-hang', [App\Http\Controllers\HomeController::class, 'trackOrder'])->name('track.order');
 
 
@@ -188,22 +189,30 @@ Route::post('/login', function (Request $request) {
     }
     return back()->withErrors(['login_info' => 'Sai thông tin đăng nhập!']);
 });
-Route::get('/logout', function (Request $request) {
-    Auth::logout(); $request->session()->invalidate(); return redirect('/');
+
+// ĐÃ SỬA: Hỗ trợ cả GET và POST để tránh lỗi MethodNotAllowedHttpException
+Route::match(['get', 'post'], '/logout', function (Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
 })->name('logout');
 
-// --- ROUTE BẢO MẬT CHO NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP (PROFILE) ---
-// Chỗ này bắt buộc phải đăng nhập mới được vào xem và sửa hồ sơ
+// --- ROUTE BẢO MẬT CHO NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP (PROFILE & ĐƠN HÀNG) ---
+// Chỗ này bắt buộc phải đăng nhập mới được vào xem
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    
+    // ĐÃ THÊM: Route dành riêng để hiển thị danh sách lịch sử đơn hàng của người dùng đang đăng nhập
+    Route::get('/my-orders', [App\Http\Controllers\HomeController::class, 'userOrders'])->name('user.orders');
 });
 
 // --- ROUTE ADMIN ---
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // ĐÃ THÊM: Route xuất file CSV doanh thu (phải đặt dưới dashboard.index)
+    // Route xuất file CSV doanh thu
     Route::get('/dashboard/export', [DashboardController::class, 'export'])->name('dashboard.export');
     
     // Quản lý Danh mục
@@ -219,4 +228,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Quản lý Người dùng
     Route::resource('users', UserController::class)->except(['create', 'store']);
-});     
+});

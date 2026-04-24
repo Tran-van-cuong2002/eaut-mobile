@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\Order; // BỔ SUNG: Khai báo model Order để dùng cho chức năng tra cứu
+use App\Models\Order; // Khai báo model Order
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // BỔ SUNG: Khai báo thư viện Auth để lấy ID người dùng
 
 class HomeController extends Controller
 {
@@ -42,7 +43,7 @@ class HomeController extends Controller
         return view('client.index', compact('categories', 'products'));
     }
 
-    // --- BỔ SUNG: HÀM TRA CỨU ĐƠN HÀNG ---
+    // --- HÀM TRA CỨU ĐƠN HÀNG (DÀNH CHO KHÁCH VÃNG LAI) ---
     public function trackOrder(Request $request) 
     {
         $orders = null; // Mặc định là null khi chưa tìm kiếm
@@ -58,5 +59,17 @@ class HomeController extends Controller
 
         // Trả về view track_order.blade.php kèm theo dữ liệu
         return view('client.track_order', compact('orders', 'phone'));
+    }
+
+    // --- BỔ SUNG: HÀM XEM LỊCH SỬ ĐƠN HÀNG (DÀNH CHO USER ĐÃ ĐĂNG NHẬP) ---
+    public function userOrders()
+    {
+        // Lấy đơn hàng dựa vào user_id của người đang đăng nhập
+        $orders = Order::where('user_id', Auth::id())
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+
+        // ĐÃ SỬA: Trả về view admin.orders.my-orders khớp với thư mục của bạn
+        return view('admin.orders.my-orders', compact('orders'));
     }
 }
