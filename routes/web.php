@@ -227,6 +227,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('orders', OrderController::class)->only(['index', 'show', 'update']);
     
     // Quản lý Người dùng
-    Route::resource('users', UserController::class)->except(['create', 'store']);
-    
+    Route::resource('users', UserController::class)->except(['create', 'store']); 
 });
