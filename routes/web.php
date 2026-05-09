@@ -228,4 +228,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Quản lý Người dùng
     Route::resource('users', UserController::class)->except(['create', 'store']);
+    
 });
