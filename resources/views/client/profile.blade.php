@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Hồ sơ cá nhân của tôi</h4>
+                    <h4 class="mb-0">Thông tin tài khoản</h4>
                 </div>
                 <div class="card-body">
                     @if(session('success'))

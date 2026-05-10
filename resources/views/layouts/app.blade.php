@@ -44,7 +44,7 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                                <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
                                 <li><a class="dropdown-item" href="#">Đơn hàng của tôi</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>

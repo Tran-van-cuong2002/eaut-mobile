@@ -64,7 +64,7 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
                             <li>
                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                    <i class="bi bi-person-lines-fill me-2 text-secondary"></i>Hồ sơ cá nhân
+                                    <i class="bi bi-person-lines-fill me-2 text-secondary"></i>Thông tin tài khoản
                                 </a>
                             </li>
                             <li>
@@ -117,7 +117,7 @@
                     <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: #adb5bd; line-height: 2.2;">
                         <li><i class="bi bi-geo-alt-fill" style="margin-right: 8px; color: #0d6efd;"></i> Tòa nhà EAUT, Nam Từ Liêm, Hà Nội</li>
                         <li><i class="bi bi-telephone-fill" style="margin-right: 8px; color: #0d6efd;"></i> Hotline: 0123 456 789</li>
-                        <li><i class="bi bi-envelope-fill" style="margin-right: 8px; color: #0d6efd;"></i> contact@eaut.edu.vn</li>
+                        <li><i class="bi bi-envelope-fill" style="margin-right: 8px; color: #0d6efd;"></i> 20222142@eaut.edu.vn</li>
                     </ul>
                 </div>
 
