@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ForgotPasswordController; // <-- ĐÃ THÊM: Import Controller Quên mật khẩu
 use App\Models\Order;
 use App\Models\OrderDetail;
 
@@ -133,9 +134,9 @@ Route::post('/checkout/process', function (Request $request) {
         $total += $item['price'] * $item['quantity'];
     }
 
-    // 1. Tạo đơn hàng và gán vào biến $order
+    // 1. Tạo đơn hàng
     $order = Order::create([
-        'user_id'        => Auth::check() ? Auth::id() : null, // <--- ĐÃ THÊM: Rất quan trọng để biết đơn của user nào!
+        'user_id'        => Auth::check() ? Auth::id() : null,
         'customer_name'  => $request->fullname,
         'customer_phone' => $request->phone,
         'address'        => $request->address ?? '',
@@ -145,7 +146,7 @@ Route::post('/checkout/process', function (Request $request) {
         'status'         => 'pending'
     ]);
 
-    // 2. Ép lưu dữ liệu giỏ hàng vào bảng order_details bằng DB::table
+    // 2. Ép lưu dữ liệu giỏ hàng vào bảng order_details
     foreach ($cart as $id => $item) {
         DB::table('order_details')->insert([
             'order_id'     => $order->id, 
@@ -175,9 +176,9 @@ Route::get('/tra-cuu-don-hang', [App\Http\Controllers\HomeController::class, 'tr
 Route::get('/login', function () { return view('client.login'); })->name('login');
 Route::get('/register', function () { return view('client.register'); })->name('register');
 
-Route::get('/forgot-password', function () {
-    return "<h3 style='text-align:center; margin-top:50px;'>Trang quên mật khẩu đang được phát triển.</h3><div style='text-align:center;'><a href='/login'>Quay lại trang Đăng nhập</a></div>";
-})->name('forgot-password');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('forgot-password');
 
 Route::post('/login', function (Request $request) {
     $credentials = $request->only('password');
@@ -190,7 +191,6 @@ Route::post('/login', function (Request $request) {
     return back()->withErrors(['login_info' => 'Sai thông tin đăng nhập!']);
 });
 
-// ĐÃ SỬA: Hỗ trợ cả GET và POST để tránh lỗi MethodNotAllowedHttpException
 Route::match(['get', 'post'], '/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
@@ -199,12 +199,10 @@ Route::match(['get', 'post'], '/logout', function (Request $request) {
 })->name('logout');
 
 // --- ROUTE BẢO MẬT CHO NGƯỜI DÙNG ĐÃ ĐĂNG NHẬP (PROFILE & ĐƠN HÀNG) ---
-// Chỗ này bắt buộc phải đăng nhập mới được vào xem
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
     
-    // ĐÃ THÊM: Route dành riêng để hiển thị danh sách lịch sử đơn hàng của người dùng đang đăng nhập
     Route::get('/my-orders', [App\Http\Controllers\HomeController::class, 'userOrders'])->name('user.orders');
 });
 
